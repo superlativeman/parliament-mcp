@@ -15,6 +15,6 @@ COPY . .
 RUN poetry config virtualenvs.create false \
   && poetry install --no-root --no-interaction --no-ansi
 
-EXPOSE 5000
+EXPOSE 8080
 
 CMD ["python3", "-m", "parliament_mcp.mcp_server.main"]
