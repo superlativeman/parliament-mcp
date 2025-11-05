@@ -1,17 +1,11 @@
-# Use official Python base image
 FROM python:3.10-slim
 
-# Set working directory
 WORKDIR /app
 
-# Copy all files into the container
 COPY . .
 
-# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose port 5000
 EXPOSE 5000
 
-# Set the startup command
-CMD ["python3", "app.py"]
+CMD ["python3", "-m", "parliament_mcp.mcp_server.main"]
