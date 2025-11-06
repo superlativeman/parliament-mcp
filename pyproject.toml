@@ -22,7 +22,7 @@ description = "A library for working with UK Parliamentary data"
 requires-python = ">=3.12,<3.13"
 dependencies = [
     "httpx>=0.28.1",
-    "hishel==0.0.30",
+    "hishel==0.0.24",
     "rich>=14.0.0",
     "pydantic>=2.11.7",
     "qdrant-client>=1.15.0",
