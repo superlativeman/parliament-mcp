@@ -60,16 +60,19 @@ async def cached_limited_get(*args, **kwargs) -> httpx.Response:
     else:
         cache_dir = ".cache/hishel"
 
-    async with (
-        hishel.AsyncCacheClient(
-            timeout=120,
-            headers={"User-Agent": "parliament-mcp"},
-            storage=hishel.AsyncFileStorage(base_path=cache_dir, ttl=timedelta(days=1).total_seconds()),
+    storage = hishel.AsyncFileStorage(base_path=cache_dir, ttl=timedelta(days=1).total_seconds())
+async with (
+    httpx.AsyncClient(
+        timeout=120,
+        headers={"User-Agent": "parliament-mcp"},
+        transport=hishel.AsyncCacheTransport(
             transport=httpx.AsyncHTTPTransport(retries=3),
-        ) as client,
-        _http_client_rate_limiter,
-    ):
-        return await client.get(*args, **kwargs)
+            storage=storage,
+        ),
+    ) as client,
+    _http_client_rate_limiter,
+):
+    return await client.get(*args, **kwargs)
 
 
 @alru_cache(maxsize=128, typed=True)
